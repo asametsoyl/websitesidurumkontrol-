@@ -1,0 +1,29 @@
+# -*- coding: iso-8859-9 -*-
+import requests
+
+def check_website_status(url):
+    try:
+        # Kullanýcýnýn girdiði URL'ye GET isteði gönder
+        response = requests.get(url, timeout=10)
+        # Yanýt kodunu kontrol et
+        if response.status_code == 200:
+            print(f"{url} çalýþýyor.")
+        else:
+            print(f"{url} siteye ulaþýlamýyor. Yanýt kodu: {response.status_code}")
+    except requests.exceptions.RequestException as e:
+        # Ýstek sýrasýnda oluþabilecek hatalarý yakala ve kullanýcýya bildir
+        print(f"{url} siteye ulaþýlamýyor. Hata: {e}")
+
+def main():
+    while True:
+        # Kullanýcýdan kontrol edilecek web sitesinin URL'sini al
+        url = input("Durumunu kontrol etmek istediðiniz web sitesinin URL'sini girin (Çýkmak için 'q' yazýn): ").strip()
+        if url.lower() == 'q':
+            print("Programdan çýkýlýyor.")
+            break
+        if not url.startswith("http://") and not url.startswith("https://"):
+            url = "http://" + url
+        check_website_status(url)
+
+if __name__ == "__main__":
+    main()
